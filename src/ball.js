@@ -6,6 +6,9 @@ class Ball {
         var padding = this.r; // stops balls spawning too close to the edge
         this.pos = createVector(random(padding, WIDTH - padding), BALL_START); //puts ball at random x
         this.vel = createVector(1, 0);
+
+        this.sight = [0,0,0]; //each eye is not seeing anything
+        this.eyeTips = []; //REAL coords of tips of eyes
     }
 
     show() {
@@ -29,18 +32,15 @@ class Ball {
         noStroke();
         fill(0, 0, 255);
         ellipse(cos(45) * BALL_SIGHT, sin(45) * BALL_SIGHT, 10, 10);
-        //ellipse(cos(45) * BALL_SIGHT, -sin(45) * BALL_SIGHT, 4, 4);
-        const eyeTips = [(BALL_SIGHT, 0), (cos(45) * BALL_SIGHT, sin(45) * BALL_SIGHT), (cos(45) * BALL_SIGHT, -sin(45) * BALL_SIGHT)]
-        //TODO -> CHECK IF EACH LINE WOULD COLLIDE WITH ANY BOX'S LINE
+        ellipse(cos(45) * BALL_SIGHT, -sin(45) * BALL_SIGHT, 10, 10);
         pop();
 
-        let test = localToReal(cos(45) * BALL_SIGHT, sin(45) * BALL_SIGHT, moved, rotated);
-        fill(255, 0, 0);
-        ellipse(test.x, test.y, 5, 5);
 
-
-
-
+        // v ARRAY to store all the REAL coordinates of the eye tips
+        eyeTips = [
+            localToReal(cos(45) * BALL_SIGHT, sin(45) * BALL_SIGHT, moved, rotated),
+            localToReal(cos(45) * BALL_SIGHT, -sin(45) * BALL_SIGHT, moved, rotated),
+            localToReal(BALL_SIGHT, 0, moved, rotated)];
 
         this.update();
     }
@@ -48,7 +48,19 @@ class Ball {
         //updates physics of ball called once per frame
         this.pos.x += this.vel.x;
         this.pos.y += this.vel.y;
+
+        this.checkCollision();
     }
+
+    //sets sight to an array of length 3, one for each eye that is colliding with an obstacle, 0 if not.
+    checkCollision() {
+        for (let i = 0; i < this.eyeTips.length; i++){
+            //CHECK FOR COLLISION BETWEEN OBSTACLES AND EYETIPS
+        }
+        let sight = [0, 0, 0];
+
+    }
+
 
 }
 
