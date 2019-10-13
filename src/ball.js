@@ -5,14 +5,13 @@ class Ball {
         this.r = BALL_RADIUS;
         var padding = this.r; // stops balls spawning too close to the edge
         this.pos = createVector(random(padding, WIDTH - padding), BALL_START); //puts ball at random x
-        this.vel = createVector(0, 0);
-        this.rotation = 0; //degrees from north
+        this.vel = createVector(1, 0);
     }
 
     show() {
         push();
         translate(this.pos.x, this.pos.y);
-        rotate(this.rotation);
+        rotate(this.vel.heading());
         fill(0);
         noStroke();
         ellipse(0, 0, this.r, this.r); //draws main circle
@@ -26,7 +25,13 @@ class Ball {
         line(0,0, cos(45) * BALL_SIGHT, -sin(45) * BALL_SIGHT);
         
         pop();
+
+        
     }
-    update() {}
+    update() {
+        //updates physics of ball called once per frame
+        this.pos.x += this.vel.x;
+        this.pos.y += this.vel.y;
+    }
 
 }

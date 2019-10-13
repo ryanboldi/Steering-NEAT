@@ -22,10 +22,10 @@ function draw() {
 }
 
 function keyPressed() {
-    if (keyCode == ARROW_LEFT) {
-        b.rotation += 3;
+    if (keyCode == LEFT_ARROW) {
+        b.vel.rotate(3);
     }
-    if (keyCode == ARROW_RIGHT) {
-        b.rotation += -3;
+    if (keyCode == RIGHT_ARROW) {
+        b.vel.rotate(-3);
     }
 }
