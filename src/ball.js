@@ -37,7 +37,7 @@ class Ball {
 
 
         // v ARRAY to store all the REAL coordinates of the eye tips
-        eyeTips = [
+        this.eyeTips = [
             localToReal(cos(45) * BALL_SIGHT, sin(45) * BALL_SIGHT, moved, rotated),
             localToReal(cos(45) * BALL_SIGHT, -sin(45) * BALL_SIGHT, moved, rotated),
             localToReal(BALL_SIGHT, 0, moved, rotated)];
@@ -57,11 +57,9 @@ class Ball {
         for (let i = 0; i < this.eyeTips.length; i++){
             //CHECK FOR COLLISION BETWEEN OBSTACLES AND EYETIPS
         }
-        let sight = [0, 0, 0];
+        this.sight = [0, 0, 0];
 
     }
-
-
 }
 
 /**
