@@ -22,9 +22,9 @@ function draw() {
 
 function keyPressed() {
     if (keyCode == LEFT_ARROW) {
-        b.vel.rotate(BALL_STEER_SENS);
+        b.vel.rotate(-BALL_STEER_SENS);
     }
     if (keyCode == RIGHT_ARROW) {
-        b.vel.rotate(-BALL_STEER_SENS);
+        b.vel.rotate(BALL_STEER_SENS);
     }
 }

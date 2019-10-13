@@ -11,7 +11,9 @@ class Ball {
     show() {
         push();
         translate(this.pos.x, this.pos.y);
+        let moved = [this.pos.x, this.pos.y];
         rotate(this.vel.heading());
+        let rotated = this.vel.heading();
         fill(0);
         noStroke();
         ellipse(0, 0, this.r, this.r); //draws main circle
@@ -24,11 +26,21 @@ class Ball {
         line(0, 0, cos(45) * BALL_SIGHT, sin(45) * BALL_SIGHT);
         line(0, 0, cos(45) * BALL_SIGHT, -sin(45) * BALL_SIGHT);
 
+        noStroke();
+        fill(0, 0, 255);
+        ellipse(cos(45) * BALL_SIGHT, sin(45) * BALL_SIGHT, 10, 10);
+        //ellipse(cos(45) * BALL_SIGHT, -sin(45) * BALL_SIGHT, 4, 4);
         const eyeTips = [(BALL_SIGHT, 0), (cos(45) * BALL_SIGHT, sin(45) * BALL_SIGHT), (cos(45) * BALL_SIGHT, -sin(45) * BALL_SIGHT)]
         //TODO -> CHECK IF EACH LINE WOULD COLLIDE WITH ANY BOX'S LINE
         pop();
 
-        
+        let test = localToReal(cos(45) * BALL_SIGHT, sin(45) * BALL_SIGHT, moved, rotated);
+        fill(255, 0, 0);
+        ellipse(test.x, test.y, 5, 5);
+
+
+
+
 
         this.update();
     }
@@ -38,4 +50,29 @@ class Ball {
         this.pos.y += this.vel.y;
     }
 
+}
+
+/**
+ * returns a vector
+ * converts coords in the local coord system to coords in the real system after reversing transformations/ rotations
+ * @param {float} x x coordinate in local
+ * @param {float} y y coordinate in local
+ * @param {array} moved (x,y) array for x and y transformation
+ * @param {float} rotated degrees that that the drawing was rotated
+ */
+function localToReal(x, y, moved, rotated) {
+    let newX = 0;
+    let newY = 0;
+
+    //reverse rotation
+    //reverse rotation by rotated degrees about (0,0)
+    let vec = createVector(x, y).rotate(rotated);
+    newX = vec.x;
+    newY = vec.y;
+
+    //reverse transform
+    newX += moved[0];
+    newY += moved[1];
+
+    return createVector(newX, newY)
 }
