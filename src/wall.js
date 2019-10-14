@@ -20,7 +20,7 @@ class Wall {
         lines[1] = [this.x, this.y + this.h, this.x + this.w, this.y + this.h];
         lines[2] = [this.x , this.y, this.x, this.y + this.h];
         lines[3] = [this.x + this.w, this.y,this.x + this.w, this.y + this.h];
-
+        
         return lines;
     }
 }

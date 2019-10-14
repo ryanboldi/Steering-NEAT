@@ -7,7 +7,7 @@ class Ball {
         this.pos = createVector(random(padding, WIDTH - padding), BALL_START); //puts ball at random x
         this.vel = createVector(1, 0);
 
-        this.sight = [0,0,0]; //each eye is not seeing anything
+        this.sight = [0, 0, 0]; //each eye is not seeing anything
         this.eyeTips = []; //REAL coords of tips of eyes
     }
 
@@ -25,22 +25,50 @@ class Ball {
         stroke(0, 255, 0);
         strokeWeight(1);
         //draw eyes (x,0), (xcos45,xsin45), (xcos45, -xsin45)
-        line(0, 0, BALL_SIGHT, 0); //middle eye
-        line(0, 0, cos(45) * BALL_SIGHT, sin(45) * BALL_SIGHT);
-        line(0, 0, cos(45) * BALL_SIGHT, -sin(45) * BALL_SIGHT);
 
-        noStroke();
-        fill(0, 0, 255);
-        ellipse(cos(45) * BALL_SIGHT, sin(45) * BALL_SIGHT, 10, 10);
-        ellipse(cos(45) * BALL_SIGHT, -sin(45) * BALL_SIGHT, 10, 10);
+        //console.log(this.sight);
+        //draws left eye
+        if (this.sight[0] == 1) {
+            stroke(255, 0, 0);
+            line(0, 0, cos(45) * BALL_SIGHT, sin(45) * BALL_SIGHT); //left
+        } else {
+            stroke(0, 255, 0);
+            line(0, 0, cos(45) * BALL_SIGHT, sin(45) * BALL_SIGHT); //left
+        }
+
+        //draws middle eye
+        if (this.sight[1] == 1) {
+            stroke(255, 0, 0);
+            line(0, 0, BALL_SIGHT, 0); //middle eye
+        } else {
+            stroke(0, 255, 0);
+            line(0, 0, BALL_SIGHT, 0); //middle eye
+        }
+
+        if (this.sight[2] == 1) {
+            stroke(255, 0, 0);
+            line(0, 0, cos(45) * BALL_SIGHT, -sin(45) * BALL_SIGHT); //right
+        } else {
+            stroke(0, 255, 0);
+            line(0, 0, cos(45) * BALL_SIGHT, -sin(45) * BALL_SIGHT); //right
+        }
+
+
+
+        //noStroke();
+        //fill(0, 0, 255);
+        // ellipse(BALL_SIGHT, 0, 10, 10);
+        // ellipse(cos(45) * BALL_SIGHT, sin(45) * BALL_SIGHT, 10, 10);
+        // ellipse(cos(45) * BALL_SIGHT, -sin(45) * BALL_SIGHT, 10, 10);
         pop();
 
 
         // v ARRAY to store all the REAL coordinates of the eye tips
         this.eyeTips = [
             localToReal(cos(45) * BALL_SIGHT, sin(45) * BALL_SIGHT, moved, rotated),
-            localToReal(cos(45) * BALL_SIGHT, -sin(45) * BALL_SIGHT, moved, rotated),
-            localToReal(BALL_SIGHT, 0, moved, rotated)];
+            localToReal(BALL_SIGHT, 0, moved, rotated),
+            localToReal(cos(45) * BALL_SIGHT, -sin(45) * BALL_SIGHT, moved, rotated)
+        ];
 
         this.update();
     }
@@ -54,11 +82,24 @@ class Ball {
 
     //sets sight to an array of length 3, one for each eye that is colliding with an obstacle, 0 if not.
     checkCollision() {
-        for (let i = 0; i < this.eyeTips.length; i++){
+        for (let i = 0; i < this.eyeTips.length; i++) {
             //CHECK FOR COLLISION BETWEEN OBSTACLES AND EYETIPS
+            walls.forEach(wall => {
+                let lines = wall.getLines();
+                //lines.forEach(line => {console.log(line)});
+                lines.forEach(line => {
+                    //checks if each eye collides with any line
+                    //console.log(this.eyeTips[i].x, this.eyeTips[i].y);
+                    if (intersects(this.pos.x, this.pos.y, this.eyeTips[i].x, this.eyeTips[i].y, line[0], line[1], line[2], line[3]) == true) {
+                        console.log("INTERSECT");
+                        this.sight[i] = 1;
+                        console.log(this.sight);
+                    } else {
+                        this.sight[i] = 0;
+                    }
+                });
+            });
         }
-        this.sight = [0, 0, 0];
-
     }
 }
 
@@ -86,3 +127,16 @@ function localToReal(x, y, moved, rotated) {
 
     return createVector(newX, newY)
 }
+
+// returns true iff the line from (a,b)->(c,d) intersects with (p,q)->(r,s)
+function intersects(a, b, c, d, p, q, r, s) {
+    var det, gamma, lambda;
+    det = (c - a) * (s - q) - (r - p) * (d - b);
+    if (det === 0) {
+        return false;
+    } else {
+        lambda = ((s - q) * (r - a) + (p - r) * (s - b)) / det;
+        gamma = ((b - d) * (r - a) + (c - a) * (s - b)) / det;
+        return (0 < lambda && lambda < 1) && (0 < gamma && gamma < 1);
+    }
+};

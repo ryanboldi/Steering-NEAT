@@ -7,19 +7,26 @@ const BALL_SIGHT = 50;
 const BALL_STEER_SENS = 30;
 
 let b;
-let w;
+let walls = [];
+
 
 function setup() {
     angleMode(DEGREES);
     createCanvas(WIDTH, HEIGHT);
     background(230);
+
+    //walls.push(new Wall(100,100,100,50));
+    walls.push(new Wall(300,300,100,100));
+
     b = new Ball();
-    w = new Wall(100,100,200,50);
+    
 }
 
 function draw() {
     background(230);
-    w.show();
+    walls.forEach(wall => {
+        wall.show();
+    });
     b.show();
 }
 
