@@ -3,7 +3,7 @@ const HEIGHT = 600;
 
 const BALL_RADIUS = 10; //radius of ball creatures
 const BALL_START = 10; // y value that balls should start at
-const BALL_SIGHT = 50;
+const BALL_SIGHT = 100;
 const BALL_STEER_SENS = 30;
 
 let b;
