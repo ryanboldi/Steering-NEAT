@@ -29,6 +29,7 @@ class Ball {
         //console.log(this.sight);
         //draws left eye
         if (this.sight[0] == 1) {
+            console.log("INTERSECT 1")
             stroke(255, 0, 0);
             line(0, 0, cos(45) * BALL_SIGHT, sin(45) * BALL_SIGHT); //left
         } else {
@@ -53,9 +54,6 @@ class Ball {
             stroke(0, 255, 0);
             line(0, 0, cos(45) * BALL_SIGHT, -sin(45) * BALL_SIGHT); //right
         }
-
-
-
         //noStroke();
         //fill(0, 0, 255);
         // ellipse(BALL_SIGHT, 0, 10, 10);
@@ -83,22 +81,22 @@ class Ball {
 
     //sets sight to an array of length 3, one for each eye that is colliding with an obstacle, 0 if not.
     checkCollision() {
-        //CHECK FOR COLLISION BETWEEN OBSTACLES AND EYETIPS
-        walls.forEach(wall => {
-            let lines = wall.getLines();
-            //lines.forEach(line => {console.log(line)});
-            lines.forEach(line => {
-                for (let i = 0; i < 3; i++) {
-                    //checks if each eye collides with any line
-                    //console.log(this.eyeTips[i].x, this.eyeTips[i].y);
-                    if (intersects(this.pos.x, this.pos.y, this.eyeTips[i].x, this.eyeTips[i].y, line[0], line[1], line[2], line[3]) == true) {
-                        console.log("INTERSECT");
-                    } else if (!intersects(this.pos.x, this.pos.y, this.eyeTips[i].x, this.eyeTips[i].y, line[0], line[1], line[2], line[3])) {
-                        this.setSight(i, 0);
-                    }
 
-                    //console.log(this.sight);
-    setSight(i, sight){
+        for (let i = 0; i < this.eyeTips.length; i++) {
+            //CHECK FOR COLLISION BETWEEN OBSTACLES AND EYETIPS
+            walls.forEach(wall => {
+                if (collideLineRect(this.pos.x, this.pos.y, this.eyeTips[i].x, this.eyeTips[i].y, wall.x, wall.y, wall.w, wall.h)){
+                    this.setSight(i, 1);
+                }
+                if (! collideLineRect(this.pos.x, this.pos.y, this.eyeTips[i].x, this.eyeTips[i].y, wall.x, wall.y, wall.w, wall.h)){
+                    this.setSight(i, 0);
+                }
+            });
+        }
+    }
+
+    //console.log(this.sight);
+    setSight(i, sight) {
         this.sight[i] = sight;
     }
 }
@@ -127,16 +125,3 @@ function localToReal(x, y, moved, rotated) {
 
     return createVector(newX, newY)
 }
-
-// returns true if the line from (a,b)->(c,d) intersects with (p,q)->(r,s)
-function intersects(a, b, c, d, p, q, r, s) {
-    var det, gamma, lambda;
-    det = (c - a) * (s - q) - (r - p) * (d - b);
-    if (det === 0) {
-        return false;
-    } else {
-        lambda = ((s - q) * (r - a) + (p - r) * (s - b)) / det;
-        gamma = ((b - d) * (r - a) + (c - a) * (s - b)) / det;
-        return (0 < lambda && lambda < 1) && (0 < gamma && gamma < 1);
-    }
-};

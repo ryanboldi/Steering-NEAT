@@ -15,10 +15,13 @@ function setup() {
     createCanvas(WIDTH, HEIGHT);
     background(230);
 
-    //walls.push(new Wall(100,100,100,50));
-    walls.push(new Wall(0,0,100,100));
 
     b = new Ball();
+    //walls.push(new Wall(100,100,100,50));
+    walls.push(new Wall(400,400,100,100));
+    walls.push(new Wall(456, 123, 56, 90));
+
+    
 }
 
 function draw() {
