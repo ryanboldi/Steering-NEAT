@@ -96,6 +96,7 @@ class Ball {
                         console.log(this.sight);
                     } else {
                         this.sight[i] = 0;
+                        return;
                     }
                 });
             });
@@ -103,7 +104,7 @@ class Ball {
     }
 }
 
-/**
+/** 
  * returns a vector
  * converts coords in the local coord system to coords in the real system after reversing transformations/ rotations
  * @param {float} x x coordinate in local

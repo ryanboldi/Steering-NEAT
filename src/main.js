@@ -16,10 +16,9 @@ function setup() {
     background(230);
 
     //walls.push(new Wall(100,100,100,50));
-    walls.push(new Wall(300,300,100,100));
+    walls.push(new Wall(0,0,100,100));
 
     b = new Ball();
-    
 }
 
 function draw() {
