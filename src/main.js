@@ -7,49 +7,83 @@ const BALL_SIGHT = 60;
 const BALL_STEER_SENS = 3;
 
 const BALL_SPEED = 1;
+//const BALLS = 100;
 
-let b;
+
+const WALL_SPACING = BALL_SIGHT / 2;
+const WALL_PRESET = "maze"; //random or maze
+
+let balls = [];
 let walls = [];
 
 
 function setup() {
+    walls.push(new Wall(WIDTH-1, 0, 10, HEIGHT));
+    walls.push(new Wall(0,-10,WIDTH, 10));
+    walls.push(new Wall(-10,0, 10, HEIGHT));
+    walls.push(new Wall(0, HEIGHT-1, WIDTH, 10));
+
+    const win = createVector(400,550);
     angleMode(DEGREES);
     createCanvas(WIDTH, HEIGHT);
     background(230);
-
-
-    b = new Ball();
     //walls.push(new Wall(100,100,100,50));
-    walls.push(new Wall(random(200, 600), random(200, 400), random(0, 400), random(0, 200)));
-    while (walls.length < 4) {
-        let testWall = new Wall(random(200, 600), random(200, 400), random(0, 400), random(0, 200));
-        let hitting = false;
-        walls.forEach(wall => {
-            if (collideRectRect(testWall.x, testWall.y, testWall.w, testWall.h, wall.x, wall.y, wall.w, wall.h)) {
-                console.log("respawning");
-                hitting = true;
-            }
-        });
+    //walls.push(new Wall(random(200, 600), random(200, 400), random(0, 400), random(0, 200)));
+    if (WALL_PRESET == "random") {
+        while (walls.length < 4+4) {
+            let testWall = new Wall(random(0, 600), random(200, 400), random(50, 400), random(30, 200));
+            let hitting = false;
+            walls.forEach(wall => {
+                if (collideRectRect(testWall.x, testWall.y, testWall.w, testWall.h, wall.x - WALL_SPACING, wall.y - WALL_SPACING, wall.w + WALL_SPACING * 2, wall.h + WALL_SPACING * 2)) {
+                    console.log("respawning");
+                    hitting = true;
+                }
+            });
 
-        if (hitting == false){
-            walls.push(testWall);
+            if (hitting == false) {
+                walls.push(testWall);
+            }
         }
     }
+
+    if (WALL_PRESET == "maze") {
+        walls.push(new Wall(0, 200, 100, 400));
+        walls.push(new Wall(130, 200, 670, 100));
+        walls.push(new Wall(100, 350, 600, 100));
+        walls.push(new Wall(750, 300, 50, 300));
+
+    }
+
+    initNeat();
+    startEvaluation();
 }
 
 function draw() {
     background(230);
+    fill(0,255,0);
+    ellipse(400, 550, 10,10);
+    //win circle
+
+
+    //check if all balls are dead
+    let dead = true;
+    balls.forEach(ball=>{
+        if(ball.alive){
+            dead = false;
+        }
+    });
+
+    //if all dead, reset generation
+    if (dead == true){
+        endEvaluation();
+    }
+    
     walls.forEach(wall => {
         wall.show();
     });
-    b.show();
-
-    if (keyIsDown(LEFT_ARROW)) {
-        b.vel.rotate(-BALL_STEER_SENS);
-    }
-    if (keyIsDown(RIGHT_ARROW)) {
-        b.vel.rotate(BALL_STEER_SENS);
-    }
+    balls.forEach(ball => {
+        ball.show();
+    });
 }
 
 function keyPressed() {
@@ -59,4 +93,10 @@ function keyPressed() {
     if (keyCode == RIGHT_ARROW) {
         //b.vel.rotate(BALL_STEER_SENS);
     }
+}
+
+function getFitness(){
+    balls.forEach(ball => {
+        ball.brain.score = ball.getFitness();
+    });
 }

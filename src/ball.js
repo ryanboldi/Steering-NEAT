@@ -1,7 +1,8 @@
 class Ball {
-    constructor() {
-        //this.brain = genome;
-        //this.brain.score = 0;
+    constructor(genome) {
+        this.brain = genome;
+        this.brain.score = 0;
+
         this.r = BALL_RADIUS;
         var padding = this.r; // stops balls spawning too close to the edge
         this.pos = createVector(random(padding, WIDTH - padding), BALL_START); //puts ball at random x
@@ -11,6 +12,7 @@ class Ball {
         this.eyeTips = []; //REAL coords of tips of eyes
 
         this.alive = true;
+        balls.push(this);
     }
 
     show() {
@@ -74,34 +76,41 @@ class Ball {
     }
     update() {
         //updates physics of ball called once per frame
-        this.pos.x += this.vel.x;
-        this.pos.y += this.vel.y;
+        if (this.alive) {
+            this.pos.x += this.vel.x;
+            this.pos.y += this.vel.y;
 
-        this.checkCollision();
+            this.checkCollision();
+        }
     }
 
-    
+
     checkCollision() {
 
+        //THING
         
-
-    //sets sight to an array of length 3, one for each eye that is colliding with an obstacle, 0 if not.
+        walls.forEach(wall => {
+            if (collideRectCircle(wall.x, wall.y, wall.w, wall.h, this.pos.x, this.pos.y, this.r)) {
+                this.alive = false;
+            }
+        });
+        //sets sight to an array of length 3, one for each eye that is colliding with an obstacle, 0 if not.
         for (let i = 0; i < this.eyeTips.length; i++) {
             //CHECK FOR COLLISION BETWEEN OBSTACLES AND EYETIPS
             walls.forEach(wall => {
-                if (collideLineRect(this.pos.x, this.pos.y, this.eyeTips[i].x, this.eyeTips[i].y, wall.x, wall.y, wall.w, wall.h)){
+                if (collideLineRect(this.pos.x, this.pos.y, this.eyeTips[i].x, this.eyeTips[i].y, wall.x, wall.y, wall.w, wall.h)) {
                     this.setSight(i, 1);
                 }
             });
             //checks if collison has stopped to reset eyes to green.
             let stoppedColliding = true;
             walls.forEach(wall => {
-                if (collideLineRect(this.pos.x, this.pos.y, this.eyeTips[i].x, this.eyeTips[i].y, wall.x, wall.y, wall.w, wall.h)){
+                if (collideLineRect(this.pos.x, this.pos.y, this.eyeTips[i].x, this.eyeTips[i].y, wall.x, wall.y, wall.w, wall.h)) {
                     stoppedColliding = false;
                 }
             });
 
-            if (stoppedColliding == true){
+            if (stoppedColliding == true) {
                 this.setSight(i, 0);
             }
         }
@@ -110,6 +119,10 @@ class Ball {
     //console.log(this.sight);
     setSight(i, sight) {
         this.sight[i] = sight;
+    }
+
+    getFitness(){
+        return (dist(this.pos, win.pos));
     }
 }
 
