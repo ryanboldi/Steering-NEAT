@@ -36,6 +36,7 @@ class Ball {
             line(0, 0, cos(45) * BALL_SIGHT, sin(45) * BALL_SIGHT); //left
         }
 
+        //console.log(this.sight);
         //draws middle eye
         if (this.sight[1] == 1) {
             stroke(255, 0, 0);
@@ -82,25 +83,23 @@ class Ball {
 
     //sets sight to an array of length 3, one for each eye that is colliding with an obstacle, 0 if not.
     checkCollision() {
-        for (let i = 0; i < this.eyeTips.length; i++) {
-            //CHECK FOR COLLISION BETWEEN OBSTACLES AND EYETIPS
-            walls.forEach(wall => {
-                let lines = wall.getLines();
-                //lines.forEach(line => {console.log(line)});
-                lines.forEach(line => {
+        //CHECK FOR COLLISION BETWEEN OBSTACLES AND EYETIPS
+        walls.forEach(wall => {
+            let lines = wall.getLines();
+            //lines.forEach(line => {console.log(line)});
+            lines.forEach(line => {
+                for (let i = 0; i < 3; i++) {
                     //checks if each eye collides with any line
                     //console.log(this.eyeTips[i].x, this.eyeTips[i].y);
                     if (intersects(this.pos.x, this.pos.y, this.eyeTips[i].x, this.eyeTips[i].y, line[0], line[1], line[2], line[3]) == true) {
                         console.log("INTERSECT");
-                        this.sight[i] = 1;
-                        console.log(this.sight);
-                    } else {
-                        this.sight[i] = 0;
-                        return;
+                    } else if (!intersects(this.pos.x, this.pos.y, this.eyeTips[i].x, this.eyeTips[i].y, line[0], line[1], line[2], line[3])) {
+                        this.setSight(i, 0);
                     }
-                });
-            });
-        }
+
+                    //console.log(this.sight);
+    setSight(i, sight){
+        this.sight[i] = sight;
     }
 }
 
@@ -129,7 +128,7 @@ function localToReal(x, y, moved, rotated) {
     return createVector(newX, newY)
 }
 
-// returns true iff the line from (a,b)->(c,d) intersects with (p,q)->(r,s)
+// returns true if the line from (a,b)->(c,d) intersects with (p,q)->(r,s)
 function intersects(a, b, c, d, p, q, r, s) {
     var det, gamma, lambda;
     det = (c - a) * (s - q) - (r - p) * (d - b);
