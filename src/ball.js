@@ -5,10 +5,12 @@ class Ball {
         this.r = BALL_RADIUS;
         var padding = this.r; // stops balls spawning too close to the edge
         this.pos = createVector(random(padding, WIDTH - padding), BALL_START); //puts ball at random x
-        this.vel = createVector(1, 0);
+        this.vel = createVector(BALL_SPEED, 0);
 
         this.sight = [0, 0, 0]; //each eye is not seeing anything
         this.eyeTips = []; //REAL coords of tips of eyes
+
+        this.alive = true;
     }
 
     show() {
@@ -26,7 +28,7 @@ class Ball {
         strokeWeight(1);
         //draw eyes (x,0), (xcos45,xsin45), (xcos45, -xsin45)
 
-        console.log(this.sight);
+        //console.log(this.sight);
         //draws left eye
         if (this.sight[0] == 1) {
             stroke(255, 0, 0);
@@ -78,18 +80,20 @@ class Ball {
         this.checkCollision();
     }
 
-    //sets sight to an array of length 3, one for each eye that is colliding with an obstacle, 0 if not.
+    
     checkCollision() {
-// TODO: checking if wall is getting hit by eye, but there are two walls and not both are hit by eye.
+
+        
+
+    //sets sight to an array of length 3, one for each eye that is colliding with an obstacle, 0 if not.
         for (let i = 0; i < this.eyeTips.length; i++) {
             //CHECK FOR COLLISION BETWEEN OBSTACLES AND EYETIPS
             walls.forEach(wall => {
                 if (collideLineRect(this.pos.x, this.pos.y, this.eyeTips[i].x, this.eyeTips[i].y, wall.x, wall.y, wall.w, wall.h)){
-                    console.log("INTERSECT");
                     this.setSight(i, 1);
                 }
             });
-
+            //checks if collison has stopped to reset eyes to green.
             let stoppedColliding = true;
             walls.forEach(wall => {
                 if (collideLineRect(this.pos.x, this.pos.y, this.eyeTips[i].x, this.eyeTips[i].y, wall.x, wall.y, wall.w, wall.h)){
@@ -100,10 +104,6 @@ class Ball {
             if (stoppedColliding == true){
                 this.setSight(i, 0);
             }
-
-
-
-
         }
     }
 
