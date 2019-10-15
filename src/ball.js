@@ -26,10 +26,9 @@ class Ball {
         strokeWeight(1);
         //draw eyes (x,0), (xcos45,xsin45), (xcos45, -xsin45)
 
-        //console.log(this.sight);
+        console.log(this.sight);
         //draws left eye
         if (this.sight[0] == 1) {
-            console.log("INTERSECT 1")
             stroke(255, 0, 0);
             line(0, 0, cos(45) * BALL_SIGHT, sin(45) * BALL_SIGHT); //left
         } else {
@@ -81,17 +80,30 @@ class Ball {
 
     //sets sight to an array of length 3, one for each eye that is colliding with an obstacle, 0 if not.
     checkCollision() {
-
+// TODO: checking if wall is getting hit by eye, but there are two walls and not both are hit by eye.
         for (let i = 0; i < this.eyeTips.length; i++) {
             //CHECK FOR COLLISION BETWEEN OBSTACLES AND EYETIPS
             walls.forEach(wall => {
                 if (collideLineRect(this.pos.x, this.pos.y, this.eyeTips[i].x, this.eyeTips[i].y, wall.x, wall.y, wall.w, wall.h)){
+                    console.log("INTERSECT");
                     this.setSight(i, 1);
                 }
-                if (! collideLineRect(this.pos.x, this.pos.y, this.eyeTips[i].x, this.eyeTips[i].y, wall.x, wall.y, wall.w, wall.h)){
-                    this.setSight(i, 0);
+            });
+
+            let stoppedColliding = true;
+            walls.forEach(wall => {
+                if (collideLineRect(this.pos.x, this.pos.y, this.eyeTips[i].x, this.eyeTips[i].y, wall.x, wall.y, wall.w, wall.h)){
+                    stoppedColliding = false;
                 }
             });
+
+            if (stoppedColliding == true){
+                this.setSight(i, 0);
+            }
+
+
+
+
         }
     }
 

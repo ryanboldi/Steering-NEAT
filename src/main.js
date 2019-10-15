@@ -19,7 +19,7 @@ function setup() {
     b = new Ball();
     //walls.push(new Wall(100,100,100,50));
     walls.push(new Wall(400,400,100,100));
-    walls.push(new Wall(456, 123, 56, 90));
+    walls.push(new Wall(356, 123, 56, 90));
 
     
 }
