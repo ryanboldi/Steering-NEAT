@@ -80,6 +80,18 @@ class Ball {
             this.pos.x += this.vel.x;
             this.pos.y += this.vel.y;
 
+            let input = [this.sight[0], this.sight[1], this.sight[2], this.pos.angleBetween(win)];
+            let output = this.brain.activate(input);
+
+            if (output[0] > 0.5){
+                this.vel.rotate(BALL_STEER_SENS);
+            }
+            if (output[1] > 0.5){
+                this.vel.rotate(-BALL_STEER_SENS);
+            }
+
+            this.fitness();
+
             this.checkCollision();
         }
     }
@@ -121,8 +133,9 @@ class Ball {
         this.sight[i] = sight;
     }
 
-    getFitness(){
-        return (dist(this.pos, win.pos));
+    fitness(){
+         this.brain.score = -dist(this.pos.x, this.pos.y, win.x, win.y);
+         //console.log(this.brain.fitness);
     }
 }
 

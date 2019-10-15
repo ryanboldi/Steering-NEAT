@@ -6,9 +6,11 @@ const BALL_START = 10; // y value that balls should start at
 const BALL_SIGHT = 60;
 const BALL_STEER_SENS = 3;
 
-const BALL_SPEED = 1;
+const BALL_SPEED = 2;
 //const BALLS = 100;
 
+let win;
+let counter = 0;
 
 const WALL_SPACING = BALL_SIGHT / 2;
 const WALL_PRESET = "maze"; //random or maze
@@ -23,7 +25,7 @@ function setup() {
     walls.push(new Wall(-10,0, 10, HEIGHT));
     walls.push(new Wall(0, HEIGHT-1, WIDTH, 10));
 
-    const win = createVector(400,550);
+    win = createVector(400,550);
     angleMode(DEGREES);
     createCanvas(WIDTH, HEIGHT);
     background(230);
@@ -59,11 +61,16 @@ function setup() {
 }
 
 function draw() {
+    counter++;
     background(230);
     fill(0,255,0);
     ellipse(400, 550, 10,10);
     //win circle
 
+    if (counter == ITERATIONS){
+        endEvaluation();
+        counter = 0;
+    }
 
     //check if all balls are dead
     let dead = true;
@@ -75,6 +82,7 @@ function draw() {
 
     //if all dead, reset generation
     if (dead == true){
+        counter = 0;
         endEvaluation();
     }
     
@@ -93,10 +101,4 @@ function keyPressed() {
     if (keyCode == RIGHT_ARROW) {
         //b.vel.rotate(BALL_STEER_SENS);
     }
-}
-
-function getFitness(){
-    balls.forEach(ball => {
-        ball.brain.score = ball.getFitness();
-    });
 }
