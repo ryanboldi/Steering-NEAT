@@ -5,17 +5,23 @@ class Ball {
 
         this.r = BALL_RADIUS;
         var padding = this.r; // stops balls spawning too close to the edge
-        this.pos = createVector(random(padding, WIDTH - padding), BALL_START); //puts ball at random x
+        //this.pos = createVector(random(padding, WIDTH - padding), BALL_START); //puts ball at random x
+        this.pos = createVector(WIDTH/2, BALL_START);
         this.vel = createVector(BALL_SPEED, 0);
+        //this.vel.rotate(random(0,360));
 
         this.sight = [0, 0, 0]; //each eye is not seeing anything
         this.eyeTips = []; //REAL coords of tips of eyes
 
         this.alive = true;
+        this.aliveCounter = 0;
         balls.push(this);
     }
 
     show() {
+        if (this.alive) {
+            this.aliveCounter++;
+        }
         push();
         translate(this.pos.x, this.pos.y);
         let moved = [this.pos.x, this.pos.y];
@@ -85,25 +91,27 @@ class Ball {
 
             //console.log(output);
 
-            if (output[0] > 0.5 && output[0] > output[1]){
+            if (output[0] > 0.5 && output[0] > output[1]) {
                 this.vel.rotate(BALL_STEER_SENS);
             }
-            if (output[1] > 0.5){
+            if (output[1] > 0.5) {
                 //console.log("LEFT");
                 this.vel.rotate(-BALL_STEER_SENS);
             }
 
-            this.fitness();
+            
 
             this.checkCollision();
         }
+
+        this.fitness();
     }
 
 
     checkCollision() {
 
         //THING
-        
+
         walls.forEach(wall => {
             if (collideRectCircle(wall.x, wall.y, wall.w, wall.h, this.pos.x, this.pos.y, this.r)) {
                 this.alive = false;
@@ -136,9 +144,14 @@ class Ball {
         this.sight[i] = sight;
     }
 
-    fitness(){
-         this.brain.score = -dist(this.pos.x, this.pos.y, win.x, win.y);
-         //console.log(this.brain.fitness);
+    fitness() {
+        let biggest = -10000000000;
+        let score = -dist(this.pos.x, this.pos.y, win.x, win.y);
+        if (score > biggest){
+            biggest = score;
+        }
+        this.brain.score = biggest;
+        //console.log(this.brain.fitness);
     }
 }
 

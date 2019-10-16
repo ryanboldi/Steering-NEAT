@@ -7,11 +7,11 @@ var Architect = neataptic.Architect;
 Config.warnings = false;
 
 /* genetic algorithm settings */
-var PLAYERS = 90; //How many players to test at a time
+var PLAYERS = 50; //How many players to test at a time
 var ITERATIONS = 600; //how many frames per generation maximum
-var MUTATION_RATE = 0.3;
+var MUTATION_RATE = 0.2;
 var ELITISM = Math.round(0.1 * PLAYERS);
-var START_HIDDEN_SIZE = 4;
+var START_HIDDEN_SIZE = 6;
 
 /* trained Population */
 var USE_TRAINED_POP = false;

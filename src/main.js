@@ -1,19 +1,21 @@
 const WIDTH = 800;
 const HEIGHT = 600;
 
-const BALL_RADIUS = 10; //radius of ball creatures
+const BALL_RADIUS = 5; //radius of ball creatures
 const BALL_START = 10; // y value that balls should start at
-const BALL_SIGHT = 50;
-const BALL_STEER_SENS = 6;
+const BALL_SIGHT = 45;
+const BALL_STEER_SENS = 10;
 
-const BALL_SPEED = 10;
+const BALL_SPEED = 5;
+
+const BALL_ALIVE_SCORE = 0; //score per frame for being alive.
 //const BALLS = 100;
 
 let win;
 let counter = 0;
 
 const WALL_SPACING = BALL_SIGHT / 2;
-const WALL_PRESET = "random"; //random or maze
+const WALL_PRESET = "maze"; //random or maze
 
 let balls = [];
 let walls = [];
@@ -25,7 +27,7 @@ function setup() {
     walls.push(new Wall(-10,0, 10, HEIGHT));
     walls.push(new Wall(0, HEIGHT-1, WIDTH, 10));
 
-    win = createVector(400,550);
+    win = createVector(200,550);
     angleMode(DEGREES);
     createCanvas(WIDTH, HEIGHT);
     background(230);
@@ -49,10 +51,10 @@ function setup() {
     }
 
     if (WALL_PRESET == "maze") {
-        walls.push(new Wall(0, 200, 100, 400));
-        walls.push(new Wall(250, 200, 550, 100));
-        walls.push(new Wall(100, 350, 600, 100));
-        walls.push(new Wall(750, 300, 50, 300));
+        walls.push(new Wall(0, 200, 100, 500));
+        walls.push(new Wall(100, 200, 400, 100));
+        walls.push(new Wall(450, 400, 300, 100));
+        walls.push(new Wall(750, 200, 50, 400));
 
     }
 
@@ -64,7 +66,7 @@ function draw() {
     counter++;
     background(230);
     fill(0,255,0);
-    ellipse(400, 550, 10,10);
+    ellipse(win.x, win.y, 10,10);
     //win circle
 
     if (counter == ITERATIONS){
