@@ -3,17 +3,17 @@ const HEIGHT = 600;
 
 const BALL_RADIUS = 10; //radius of ball creatures
 const BALL_START = 10; // y value that balls should start at
-const BALL_SIGHT = 60;
-const BALL_STEER_SENS = 3;
+const BALL_SIGHT = 50;
+const BALL_STEER_SENS = 6;
 
-const BALL_SPEED = 2;
+const BALL_SPEED = 10;
 //const BALLS = 100;
 
 let win;
 let counter = 0;
 
 const WALL_SPACING = BALL_SIGHT / 2;
-const WALL_PRESET = "maze"; //random or maze
+const WALL_PRESET = "random"; //random or maze
 
 let balls = [];
 let walls = [];
@@ -50,7 +50,7 @@ function setup() {
 
     if (WALL_PRESET == "maze") {
         walls.push(new Wall(0, 200, 100, 400));
-        walls.push(new Wall(130, 200, 670, 100));
+        walls.push(new Wall(250, 200, 550, 100));
         walls.push(new Wall(100, 350, 600, 100));
         walls.push(new Wall(750, 300, 50, 300));
 

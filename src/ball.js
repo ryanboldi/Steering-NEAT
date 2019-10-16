@@ -80,13 +80,16 @@ class Ball {
             this.pos.x += this.vel.x;
             this.pos.y += this.vel.y;
 
-            let input = [this.sight[0], this.sight[1], this.sight[2], this.pos.angleBetween(win)];
+            let input = [this.sight[0], this.sight[1], this.sight[2], this.vel.angleBetween(createVector(win.x - this.pos.x, win.y - this.pos.y))];
             let output = this.brain.activate(input);
 
-            if (output[0] > 0.5){
+            //console.log(output);
+
+            if (output[0] > 0.5 && output[0] > output[1]){
                 this.vel.rotate(BALL_STEER_SENS);
             }
             if (output[1] > 0.5){
+                //console.log("LEFT");
                 this.vel.rotate(-BALL_STEER_SENS);
             }
 
