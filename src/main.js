@@ -53,7 +53,7 @@ function setup() {
     if (WALL_PRESET == "maze") {
         walls.push(new Wall(0, 200, 100, 500));
         walls.push(new Wall(100, 200, 400, 100));
-        walls.push(new Wall(450, 400, 300, 100));
+        walls.push(new Wall(350, 400, 400, 100));
         walls.push(new Wall(750, 200, 50, 400));
 
     }

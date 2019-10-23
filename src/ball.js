@@ -8,7 +8,7 @@ class Ball {
         //this.pos = createVector(random(padding, WIDTH - padding), BALL_START); //puts ball at random x
         this.pos = createVector(WIDTH/2, BALL_START);
         this.vel = createVector(BALL_SPEED, 0);
-        //this.vel.rotate(random(0,360));
+        this.vel.rotate(random(0,360));
 
         this.sight = [0, 0, 0]; //each eye is not seeing anything
         this.eyeTips = []; //REAL coords of tips of eyes
