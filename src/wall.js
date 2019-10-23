@@ -6,8 +6,13 @@ class Wall {
         this.h = h;
     }
 
-    show() {
-        fill(0, 255, 255);
+    show(index) {
+        if (index == 0) {
+            fill(255, 0, 0);
+        }
+        else {
+            fill(0, 255, 255);
+        }
         rect(this.x, this.y, this.w, this.h);
     }
 
@@ -18,9 +23,9 @@ class Wall {
         let lines = [0, 0, 0, 0];
         lines[0] = [this.x, this.y, this.x + this.w, this.y];
         lines[1] = [this.x, this.y + this.h, this.x + this.w, this.y + this.h];
-        lines[2] = [this.x , this.y, this.x, this.y + this.h];
-        lines[3] = [this.x + this.w, this.y,this.x + this.w, this.y + this.h];
-        
+        lines[2] = [this.x, this.y, this.x, this.y + this.h];
+        lines[3] = [this.x + this.w, this.y, this.x + this.w, this.y + this.h];
+
         return lines;
     }
 }

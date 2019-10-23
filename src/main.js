@@ -1,40 +1,48 @@
 const WIDTH = 800;
 const HEIGHT = 600;
+const MAX_DIST = Math.sqrt(800 ** 2 + 600 ** 2); //max euclidian distance
 
-const BALL_RADIUS = 5; //radius of ball creatures
-const BALL_START = 10; // y value that balls should start at
-const BALL_SIGHT = 45;
+const BALL_RADIUS = 10; //radius of ball creatures
+const BALL_START = BALL_RADIUS * 2; // y value that balls should start at
+const BALL_SIGHT = 50;
 const BALL_STEER_SENS = 10;
 
 const BALL_SPEED = 5;
+const TURN_PENALTY = 0;
+const DEATH_PENALTY = 10;
 
-const BALL_ALIVE_SCORE = 0; //score per frame for being alive.
+const DEATHWALL_SPEED = 1;
+
+const EYE_ANGLE = 45;
+
+const BALL_ALIVE_SCORE = 0.1; //score per frame for being alive.
 //const BALLS = 100;
 
 let win;
 let counter = 0;
 
 const WALL_SPACING = BALL_SIGHT / 2;
-const WALL_PRESET = "maze"; //random or maze
+const WALL_PRESET = "maze"; //random or maze or blocks
 
 let balls = [];
 let walls = [];
 
 
 function setup() {
-    walls.push(new Wall(WIDTH-1, 0, 10, HEIGHT));
-    walls.push(new Wall(0,-10,WIDTH, 10));
-    walls.push(new Wall(-10,0, 10, HEIGHT));
-    walls.push(new Wall(0, HEIGHT-1, WIDTH, 10));
+    walls.push(new Wall(0, -60, WIDTH, 3));
+    walls.push(new Wall(WIDTH - 1, 0, 10, HEIGHT));
+    walls.push(new Wall(0, -10, WIDTH, 10));
+    walls.push(new Wall(-10, 0, 10, HEIGHT));
+    walls.push(new Wall(0, HEIGHT - 1, WIDTH, 10));
 
-    win = createVector(200,550);
+    win = createVector(WIDTH / 2, 550);
     angleMode(DEGREES);
     createCanvas(WIDTH, HEIGHT);
     background(230);
     //walls.push(new Wall(100,100,100,50));
     //walls.push(new Wall(random(200, 600), random(200, 400), random(0, 400), random(0, 200)));
     if (WALL_PRESET == "random") {
-        while (walls.length < 4+4) {
+        while (walls.length < 4 + 4) {
             let testWall = new Wall(random(0, 600), random(200, 400), random(50, 400), random(30, 200));
             let hitting = false;
             walls.forEach(wall => {
@@ -58,6 +66,14 @@ function setup() {
 
     }
 
+    if (WALL_PRESET == "blocks") {
+        walls.push(new Wall(0, 150, 250, 25));
+        walls.push(new Wall(550, 150, 250, 25));
+        walls.push(new Wall(225, 280, 300, 25));
+        walls.push(new Wall(0, 400, 300, 25));
+        walls.push(new Wall(500, 400, 300, 25));
+    }
+
     initNeat();
     startEvaluation();
 }
@@ -65,32 +81,36 @@ function setup() {
 function draw() {
     counter++;
     background(230);
-    fill(0,255,0);
-    ellipse(win.x, win.y, 10,10);
+    fill(0, 255, 0);
+    ellipse(win.x, win.y, 10, 10);
     //win circle
 
-    if (counter == ITERATIONS){
+    if (counter == ITERATIONS) {
         endEvaluation();
         counter = 0;
     }
 
     //check if all balls are dead
     let dead = true;
-    balls.forEach(ball=>{
-        if(ball.alive){
+    balls.forEach(ball => {
+        if (ball.alive) {
             dead = false;
         }
     });
 
     //if all dead, reset generation
-    if (dead == true){
+    if (dead == true) {
         counter = 0;
         endEvaluation();
     }
-    
-    walls.forEach(wall => {
-        wall.show();
-    });
+
+    for (let i = 0; i < walls.length; i++) {
+        walls[i].show(i);
+    }
+
+    //MOVES DEATHWALL
+    walls[0].y += DEATHWALL_SPEED;
+
     balls.forEach(ball => {
         ball.show();
     });
@@ -103,4 +123,8 @@ function keyPressed() {
     if (keyCode == RIGHT_ARROW) {
         //b.vel.rotate(BALL_STEER_SENS);
     }
+}
+
+function normalise(num, in_min, in_max, out_min, out_max) {
+    return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }

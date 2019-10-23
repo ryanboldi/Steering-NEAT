@@ -7,9 +7,9 @@ var Architect = neataptic.Architect;
 Config.warnings = false;
 
 /* genetic algorithm settings */
-var PLAYERS = 50; //How many players to test at a time
+var PLAYERS = 100; //How many players to test at a time
 var ITERATIONS = 600; //how many frames per generation maximum
-var MUTATION_RATE = 0.2;
+var MUTATION_RATE = 0.5;
 var ELITISM = Math.round(0.1 * PLAYERS);
 var START_HIDDEN_SIZE = 6;
 
@@ -57,11 +57,15 @@ function startEvaluation() {
         genome = neat.population[genome];
         new Ball(genome);
     }
+
+    neat.mutate();
 }
 
 
 function endEvaluation() {
+    walls[0].y = 0;
     console.log('Generation: ', neat.generation, ' - average score: ', neat.getAverage());
+    console.log('Generation highest score' , neat.getFittest().score);
 
     //networks shouldn't get too big
     for (var genome in neat.population) {
