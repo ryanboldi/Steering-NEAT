@@ -1,13 +1,13 @@
 const WIDTH = 800;
-const HEIGHT = 600;
+const HEIGHT = 1000;
 const MAX_DIST = Math.sqrt(800 ** 2 + 600 ** 2); //max euclidian distance
 
 const BALL_RADIUS = 10; //radius of ball creatures
 const BALL_START = BALL_RADIUS * 2; // y value that balls should start at
 const BALL_SIGHT = 50;
-const BALL_STEER_SENS = 10;
+const BALL_STEER_SENS = 15;
 
-const BALL_SPEED = 5;
+const BALL_SPEED = 8;
 const TURN_PENALTY = 0;
 const DEATH_PENALTY = 10;
 
@@ -16,7 +16,7 @@ const DEATHWALL_SPEED = 1;
 
 const EYE_ANGLE = 45;
 
-const BALL_ALIVE_SCORE = 0.1; //score per frame for being alive.
+//const BALL_ALIVE_SCORE = 0.1; //score per frame for being alive.
 //const BALLS = 100;
 
 let win;
@@ -38,7 +38,7 @@ function setup() {
     walls.push(new Wall(-10, 0, 10, HEIGHT));
     walls.push(new Wall(0, HEIGHT - 1, WIDTH, 10));
 
-    win = createVector(70, 550);
+    win = createVector(100, HEIGHT-50); //GOAL POSITION
     angleMode(DEGREES);
     createCanvas(WIDTH, HEIGHT);
     background(230);
@@ -62,12 +62,16 @@ function setup() {
     }
 
     if (WALL_PRESET == "maze") {
-        walls.push(new Wall(0, 200, 50, 500));
+        walls.push(new Wall(0, 200, 50, HEIGHT));
         walls.push(new Wall(50, 200, 400, 25));
-        walls.push(new Wall(400, 325, 400, 25));
-        walls.push(new Wall(50, 425, 400, 25));
-        walls.push(new Wall(750, 200, 50, 400));
-        walls.push(new Wall(600, 200, 500, 25));
+        walls.push(new Wall(400, 300, 400, 25));
+        walls.push(new Wall(50, 400, 400, 25));
+        walls.push(new Wall(400, 500, 400, 25));
+        walls.push(new Wall(50, 600, 400, 25));
+        walls.push(new Wall(400, 700, 400, 25));
+        walls.push(new Wall(50, 800, 400, 25));
+        walls.push(new Wall(300, 900, 600, 200));
+        walls.push(new Wall(750, 200, 50, HEIGHT)); 
     }
 
     if (WALL_PRESET == "blocks") {
