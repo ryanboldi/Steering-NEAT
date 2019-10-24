@@ -11,3 +11,6 @@ The 4th input is a "desired vector" that shows them the angle to the goal.
  
  ### Result after 28-29 generations of training:
  ![](Steering28.gif)
+ 
+ ### I wanted to see what these little guys could really do, so i made the level a bit more difficult:
+ ![](Steering90.gif)
