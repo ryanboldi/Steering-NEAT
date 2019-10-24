@@ -18,4 +18,4 @@ The Balls also have 2 outputs, probability to turn left, and probability to turn
  ### I wanted to see what these little guys could really do, so i made the level a bit more difficult:
  ![](Steering100.gif)
  
- 
+As we can see, with only about 100 generations of training, the creatures are able to reach the last block.
