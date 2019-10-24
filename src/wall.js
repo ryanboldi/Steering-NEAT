@@ -8,7 +8,12 @@ class Wall {
 
     show(index) {
         if (index == 0) {
-            fill(255, 0, 0);
+            if (DEATHWALL) {
+                fill(255, 0, 0);
+            }
+            else {
+                fill(0, 255, 255);
+            }
         }
         else {
             fill(0, 255, 255);

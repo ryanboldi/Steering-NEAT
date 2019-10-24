@@ -9,7 +9,7 @@ Config.warnings = false;
 /* genetic algorithm settings */
 var PLAYERS = 100; //How many players to test at a time
 var ITERATIONS = 600; //how many frames per generation maximum
-var MUTATION_RATE = 0.5;
+var MUTATION_RATE = 0.2;
 var ELITISM = Math.round(0.1 * PLAYERS);
 var START_HIDDEN_SIZE = 6;
 

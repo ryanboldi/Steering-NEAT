@@ -11,6 +11,7 @@ const BALL_SPEED = 5;
 const TURN_PENALTY = 0;
 const DEATH_PENALTY = 10;
 
+const DEATHWALL = true;
 const DEATHWALL_SPEED = 1;
 
 const EYE_ANGLE = 45;
@@ -29,13 +30,15 @@ let walls = [];
 
 
 function setup() {
-    walls.push(new Wall(0, -60, WIDTH, 3));
+    if (DEATHWALL) {
+        walls.push(new Wall(0, -60, WIDTH, 3));
+    }
     walls.push(new Wall(WIDTH - 1, 0, 10, HEIGHT));
     walls.push(new Wall(0, -10, WIDTH, 10));
     walls.push(new Wall(-10, 0, 10, HEIGHT));
     walls.push(new Wall(0, HEIGHT - 1, WIDTH, 10));
 
-    win = createVector(WIDTH / 2, 550);
+    win = createVector(70, 550);
     angleMode(DEGREES);
     createCanvas(WIDTH, HEIGHT);
     background(230);
@@ -59,11 +62,12 @@ function setup() {
     }
 
     if (WALL_PRESET == "maze") {
-        walls.push(new Wall(0, 200, 100, 500));
-        walls.push(new Wall(100, 200, 400, 100));
-        walls.push(new Wall(350, 400, 400, 100));
+        walls.push(new Wall(0, 200, 50, 500));
+        walls.push(new Wall(50, 200, 400, 25));
+        walls.push(new Wall(400, 325, 400, 25));
+        walls.push(new Wall(50, 425, 400, 25));
         walls.push(new Wall(750, 200, 50, 400));
-
+        walls.push(new Wall(600, 200, 500, 25));
     }
 
     if (WALL_PRESET == "blocks") {
@@ -108,9 +112,11 @@ function draw() {
         walls[i].show(i);
     }
 
-    //MOVES DEATHWALL
-    walls[0].y += DEATHWALL_SPEED;
+    if (DEATHWALL) {
+        //MOVES DEATHWALL
+        walls[0].y += DEATHWALL_SPEED;
 
+    }
     balls.forEach(ball => {
         ball.show();
     });
