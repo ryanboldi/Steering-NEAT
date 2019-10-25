@@ -29,11 +29,34 @@ let balls = [];
 let walls = [];
 
 let deathSlider;
+let deathText;
 let ApplyButton;
 
 function setup() {
-    deathSlider = createSlider(0, 2, DEATHWALL_SPEED);
+    createCanvas(WIDTH, HEIGHT);
+    var ApplyButton = createButton("Reset & Apply Changes");
+    ApplyButton.mousePressed(ApplyChanges);
+    ApplyButton.position(WIDTH + 50, 400);
+
+    deathSlider = createSlider(0, 20, DEATHWALL_SPEED * 10);
     deathSlider.position(WIDTH + 50, 50);
+
+    deathText = createP("DeathWall™️ Speed");
+    deathText.position(deathSlider.x + 150, deathSlider.y - 15);
+
+    mutSlider = createSlider(0, 10, MUTATION_RATE * 10);
+    mutSlider.position(WIDTH + 50, deathSlider.y + 30);
+
+    mutText = createP("Mutation Rate");
+    mutText.position(mutSlider.x + 150, mutSlider.y - 15);
+
+    popSlider = createSlider(1, 500, PLAYERS);
+    popSlider.position(WIDTH + 50, mutSlider.y + 30);
+
+    popText = createP("Population");
+    popText.position(popSlider.x + 150, popSlider.y - 15);
+
+    
 
     if (DEATHWALL) {
         walls.push(new Wall(0, -60, WIDTH, 3));
@@ -45,7 +68,7 @@ function setup() {
 
     win = createVector(100, HEIGHT - 50); //GOAL POSITION
     angleMode(DEGREES);
-    createCanvas(WIDTH, HEIGHT);
+
     background(230);
     //walls.push(new Wall(100,100,100,50));
     //walls.push(new Wall(random(200, 600), random(200, 400), random(0, 400), random(0, 200)));
@@ -85,17 +108,22 @@ function setup() {
         walls.push(new Wall(500, 400, 300, 25));
     }
 
-   var ApplyButton = createButton("Apply Changes");
-   ApplyButton.mousePressed(ApplyChanges); 
-    ApplyChanges(); 
+
+
+    ApplyChanges();
     textSize(24);
 }
 
 function draw() {
+    //updates all text
+    deathText.html(`DeathWall™️ Speed: ${deathSlider.value() / 10}`);
+    mutText.html(`Mutation Rate: ${mutSlider.value() / 10}`);
+    popText.html(`Population: ${popSlider.value()}`);
+
     background(230);
     fill(0);
-    text(`Generation ${neat.generation}`, width-230, 50);
-    text(`Generation best ${neat.getFittest().score}`, width-230, 80);
+    text(`Generation ${neat.generation}`, width - 230, 50);
+    text(`Generation best ${neat.getFittest().score}`, width - 230, 80);
     counter++;
     fill(0, 255, 0);
     ellipse(win.x, win.y, 10, 10);
@@ -148,8 +176,15 @@ function normalise(num, in_min, in_max, out_min, out_max) {
 }
 
 //applies slider changes and restarts the sketch.
-function ApplyChanges(){
-    DEATHWALL_SPEED = deathSlider.value();
+function ApplyChanges() {
+    DEATHWALL_SPEED = deathSlider.value() / 10;
+    MUTATION_RATE = mutSlider.value() / 10;
+    PLAYERS = popSlider.value();
+
+    if (DEATHWALL){
+        walls[0].y = -60;
+    }
+
 
     console.clear();
     initNeat();
