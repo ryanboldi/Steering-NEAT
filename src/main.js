@@ -5,7 +5,7 @@ const MAX_DIST = Math.sqrt(800 ** 2 + 600 ** 2); //max euclidian distance
 const BALL_RADIUS = 10; //radius of ball creatures
 const BALL_START = BALL_RADIUS * 2; // y value that balls should start at
 const BALL_SIGHT = 50;
-const BALL_STEER_SENS = 15;
+const BALL_STEER_SENS = 10;
 
 const BALL_SPEED = 8;
 const TURN_PENALTY = 0;
