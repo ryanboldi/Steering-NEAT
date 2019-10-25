@@ -5,9 +5,9 @@ const MAX_DIST = Math.sqrt(800 ** 2 + 600 ** 2); //max euclidian distance
 const BALL_RADIUS = 10; //radius of ball creatures
 const BALL_START = BALL_RADIUS * 2; // y value that balls should start at
 const BALL_SIGHT = 60;
-const BALL_STEER_SENS = 15;
+let BALL_STEER_SENS = 15;
 
-const BALL_SPEED = 8;
+let BALL_SPEED = 8;
 const TURN_PENALTY = 0;
 const DEATH_PENALTY = 10;
 
@@ -34,6 +34,10 @@ let ApplyButton;
 
 function setup() {
     createCanvas(WIDTH, HEIGHT);
+
+
+
+
     var ApplyButton = createButton("Reset & Apply Changes");
     ApplyButton.mousePressed(ApplyChanges);
     ApplyButton.position(WIDTH + 50, 400);
@@ -56,7 +60,12 @@ function setup() {
     popText = createP("Population");
     popText.position(popSlider.x + 150, popSlider.y - 15);
 
-    
+    speedSlider = createSlider(1, 20, BALL_SPEED);
+    speedSlider.position(WIDTH + 50, popSlider.y + 30);
+
+    speedText = createP("Speed of balls");
+    speedText.position(speedSlider.x + 150, speedSlider.y - 15);
+
 
     if (DEATHWALL) {
         walls.push(new Wall(0, -60, WIDTH, 3));
@@ -119,6 +128,7 @@ function draw() {
     deathText.html(`DeathWall™️ Speed: ${deathSlider.value() / 10}`);
     mutText.html(`Mutation Rate: ${mutSlider.value() / 10}`);
     popText.html(`Population: ${popSlider.value()}`);
+    speedText.html(`Speed of balls: ${speedSlider.value()}`);
 
     background(230);
     fill(0);
@@ -180,6 +190,8 @@ function ApplyChanges() {
     DEATHWALL_SPEED = deathSlider.value() / 10;
     MUTATION_RATE = mutSlider.value() / 10;
     PLAYERS = popSlider.value();
+    BALL_SPEED = speedSlider.value();
+    BALL_STEER_SENS = BALL_SPEED * 2;
 
     if (DEATHWALL){
         walls[0].y = -60;
