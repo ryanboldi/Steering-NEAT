@@ -5,22 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Steering</title>
-    <script src="lib/p5.min.js"></script>
-    <script src="lib/neataptic.min.js"></script>
-    <script src="lib/p5.collide2d.min.js"></script>
-
-
-    <script src="src/main.js"></script>
-    <script src="src/wall.js"></script>
-    <script src="src/ball.js"></script>
-    <script src="src/neat.js"></script>
-
-
+    <title>Steering Evolution</title>
 </head>
 
 <body>
-
+    <p>
+        <font size="+1"><b>What is steering evolution?</b></font><br>Well, it is a project I created to see if i could
+        train neural networks to steer around obsticles to reach a final goal.
+    </p>
+    <p>
+        <font size="+1"><b>What are the creatures?</b></font><br>I'm glad you asked. <i>Balls</i> are creatures that
+        have a brain with 4 inputs, and 2 outputs:
+    </p>
+    <img src="ball.png" alt="diagram of ball creature" width=425px height=554px>
+    <p><b>The 4 inputs are: </b>
+        <ul>
+            <li>Sight from left eye</li>
+            <li>Sight from middle eye</li>
+            <li>Sight from right eye</li>
+            <li>Angle to goal</li>
+        </ul>
+        <b>The 2 outputs are:</b>
+        <ul>
+            <li>Probability to turn left</li>
+            <li>Probability to turn right</li>
+        </ul>
+        If either of the probabilities are above 0.5, the creature would turn in that respective direction.
+    </p>
 </body>
 
 </html>
