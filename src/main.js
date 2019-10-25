@@ -1,18 +1,18 @@
 const WIDTH = 800;
-const HEIGHT = 1000;
+const HEIGHT = 800;
 const MAX_DIST = Math.sqrt(800 ** 2 + 600 ** 2); //max euclidian distance
 
 const BALL_RADIUS = 10; //radius of ball creatures
 const BALL_START = BALL_RADIUS * 2; // y value that balls should start at
-const BALL_SIGHT = 50;
-const BALL_STEER_SENS = 10;
+const BALL_SIGHT = 60;
+const BALL_STEER_SENS = 15;
 
 const BALL_SPEED = 8;
 const TURN_PENALTY = 0;
 const DEATH_PENALTY = 10;
 
 const DEATHWALL = true;
-const DEATHWALL_SPEED = 1;
+let DEATHWALL_SPEED = 1;
 
 const EYE_ANGLE = 45;
 
@@ -28,8 +28,13 @@ const WALL_PRESET = "maze"; //random or maze or blocks
 let balls = [];
 let walls = [];
 
+let deathSlider;
+let ApplyButton;
 
 function setup() {
+    deathSlider = createSlider(0, 2, DEATHWALL_SPEED);
+    deathSlider.position(WIDTH + 50, 50);
+
     if (DEATHWALL) {
         walls.push(new Wall(0, -60, WIDTH, 3));
     }
@@ -38,7 +43,7 @@ function setup() {
     walls.push(new Wall(-10, 0, 10, HEIGHT));
     walls.push(new Wall(0, HEIGHT - 1, WIDTH, 10));
 
-    win = createVector(100, HEIGHT-50); //GOAL POSITION
+    win = createVector(100, HEIGHT - 50); //GOAL POSITION
     angleMode(DEGREES);
     createCanvas(WIDTH, HEIGHT);
     background(230);
@@ -69,9 +74,7 @@ function setup() {
         walls.push(new Wall(400, 500, 400, 25));
         walls.push(new Wall(50, 600, 400, 25));
         walls.push(new Wall(400, 700, 400, 25));
-        walls.push(new Wall(50, 800, 400, 25));
-        walls.push(new Wall(300, 900, 600, 200));
-        walls.push(new Wall(750, 200, 50, HEIGHT)); 
+        walls.push(new Wall(750, 200, 50, HEIGHT));
     }
 
     if (WALL_PRESET == "blocks") {
@@ -82,13 +85,18 @@ function setup() {
         walls.push(new Wall(500, 400, 300, 25));
     }
 
-    initNeat();
-    startEvaluation();
+   var ApplyButton = createButton("Apply Changes");
+   ApplyButton.mousePressed(ApplyChanges); 
+    ApplyChanges(); 
+    textSize(24);
 }
 
 function draw() {
-    counter++;
     background(230);
+    fill(0);
+    text(`Generation ${neat.generation}`, width-230, 50);
+    text(`Generation best ${neat.getFittest().score}`, width-230, 80);
+    counter++;
     fill(0, 255, 0);
     ellipse(win.x, win.y, 10, 10);
     //win circle
@@ -137,4 +145,13 @@ function keyPressed() {
 
 function normalise(num, in_min, in_max, out_min, out_max) {
     return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+//applies slider changes and restarts the sketch.
+function ApplyChanges(){
+    DEATHWALL_SPEED = deathSlider.value();
+
+    console.clear();
+    initNeat();
+    startEvaluation();
 }
