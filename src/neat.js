@@ -52,12 +52,11 @@ function initNeat() {
 }
 
 function startEvaluation() {
-    balls = [];
+    balls = [];  //resets ball array.
     for (var genome in neat.population) {
         genome = neat.population[genome];
         new Ball(genome);
     }
-
     neat.mutate();
 }
 
