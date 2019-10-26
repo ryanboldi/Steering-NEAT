@@ -1,21 +1,21 @@
 # Steering NEAT
  Using neuroevolution of augmenting topologies to train creatures to steer around obsticles, reaching a goal.
  
+ [See the details of the project and train them on your own computer :)](https://ryanboldi.github.io/Steering-NEAT/)
+
  ## Files:
+ ### -main.js:
+ #### File that controls the game, startup and the draw function
  ### -ball.js:
  #### Class file that contains ball class.
- #### Well, what is a ball?
- ![](ball.png)
- 
-Balls have 4 inputs, 3 inputs are their sight array, being a 0 if there is nothing in their field of view at that angle, and 1 if there is.
-The 4th input is a "desired vector" that shows them the angle to the goal.
+ ### -wall.js:
+ #### Class file that contains wall class.
+ ### -neat.js:
+ #### file that controls the genetric algorithm.
 
-The Balls also have 2 outputs, probability to turn left, and probability to turn right, if either are above 0.5, the Ball would turn in that respective direction.
+ ## Libraries:
+ - [p5.js](https://p5js.org/) Controls the drawing of the scene.
+ - [neataptic.js](https://github.com/wagenaartje/neataptic) Controls the genetic algorithm and neural network math.
+ - [p5.collide2D](https://github.com/bmoren/p5.collide2D) Detects collisions so i didn't have to check for them myself.
+
  
- ### Result after 28-29 generations of training:
- ![](Steering28.gif)
- 
- ### I wanted to see what these little guys could really do, so i made the level a bit more difficult:
- ![](Steering25.gif)
- 
-As we can see, with only about 25 generations of training, the creatures are able to reach the end.
