@@ -4,10 +4,10 @@
  [See the details of the project and train them on your own computer :)](https://ryanboldi.github.io/Steering-NEAT/)
 
  ## Files:
- ### -main.js: File that controls the game, startup and the draw function
- ### -ball.js: Class file that contains ball class.
- ### -wall.js: Class file that contains wall class.
- ### -neat.js: file that controls the genetric algorithm.
+ - main.js: File that controls the game, startup and the draw function
+ - ball.js: Class file that contains ball class.
+ - wall.js: Class file that contains wall class.
+ - neat.js: file that controls the genetric algorithm.
 
  ## Libraries:
  - [p5.js](https://p5js.org/) Controls the drawing of the scene.
