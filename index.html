@@ -7,7 +7,6 @@
     <title>Home - Brand</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
     <link rel="stylesheet" href="assets/css/styles.min.css">
@@ -20,9 +19,7 @@
                 id="navcol-1">
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item" role="presentation"><a class="nav-link active" href="index.html">Overview</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="features.html">NEAT</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="pricing.html">TRAINING</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="about-us.html">DEMO</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="https://ryanboldi.github.io/Steering-NEAT/game.html" target="_blank">DEMO</a></li>
                 </ul>
             </div>
         </div>
@@ -62,16 +59,22 @@
                     <div class="col-md-6" data-aos="fade-up" data-aos-duration="500" style="margin-right: 0;margin-left: 0;"><img src="assets/img/ball.png" style="margin-left: 0;margin-right: 0;width: 100%;filter: blur(0px) brightness(96%) invert(0%) saturate(106%);height: 100%;"></div>
                     <div class="col-md-6" data-aos="fade-up" data-aos-duration="500">
                         <div class="getting-started-info">
-                            <p>What can the creatures see?</p>
+                            <h3 style="margin-bottom: 31px;">What can the creatures see?</h3>
+                            <p>These are the inputs into the creature's neural network. Every frame, these inputs are passed through the creature's brain, and the outputs are used to steer.</p>
                             <ul class="list-group">
-                                <li class="list-group-item mainlist"><span>Sight Array :</span>
-                                    <ul class="list-group">
-                                        <li class="list-group-item mainlist"><span>Eye 0</span></li>
-                                        <li class="list-group-item mainlist"><span>Eye 1</span></li>
-                                        <li class="list-group-item"><span>Eye 2</span></li>
-                                    </ul>
+                                <li class="list-group-item mainlist"><strong style="margin-bottom: 0px;">Sight Array :</strong>
+                                    <p>This is an array of the creature's "Eyes". The values are either 0 or 1, based on whether or not something is blocking its sight.</p>
+                                    <div class="d-xl-flex justify-content-xl-center">
+                                        <div class="row eye" style="filter: invert(0%);">
+                                            <div class="col text-center"><span>Left Eye</span></div>
+                                            <div class="col text-center"><span>Center Eye</span></div>
+                                            <div class="col text-center right_eye"><span class="text-center">Right Eye</span></div>
+                                        </div>
+                                    </div>
                                 </li>
-                                <li class="list-group-item"><span>Angle to goal</span></li>
+                                <li class="list-group-item"><strong>Angle to goal :</strong>
+                                    <p>This is the angle to the goal from the creature, as can be seen in the drawing to the left.</p>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -79,43 +82,7 @@
             </div>
         </section>
     </main>
-    <footer class="page-footer dark">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-3">
-                    <h5>Get started</h5>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Sign up</a></li>
-                        <li><a href="#">Downloads</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h5>About us</h5>
-                    <ul>
-                        <li><a href="#">Company Information</a></li>
-                        <li><a href="#">Contact us</a></li>
-                        <li><a href="#">Reviews</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h5>Support</h5>
-                    <ul>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Help desk</a></li>
-                        <li><a href="#">Forums</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h5>Legal</h5>
-                    <ul>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Terms of Use</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+    <footer class="page-footer dark" style="height: 0px;opacity: 1;background-color: rgb(255,255,255);">
         <div class="footer-copyright">
             <p>© 2020 Ryan Bahlous-Boldi</p>
         </div>
